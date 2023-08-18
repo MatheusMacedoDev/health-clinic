@@ -2,16 +2,16 @@
 
 SELECT
 	Consultation.Id AS 'Id Consulta',
-	Consultation.[Date] AS 'Data da Consulta',
-	Consultation.[Time] AS 'Horário da Consulta',
+	FORMAT(CAST(Consultation.[Date] AS DATETIME), 'dd/MM/yyyy') AS 'Data da Consulta',
+	FORMAT(CAST(Consultation.[Time] as DATETIME), 'HH:mm') AS 'Horário da Consulta',
 	Clinic.FancyName AS 'Nome da Clínica',
 	PatientUser.[Name] AS 'Nome do Paciente',
 	DoctorUser.[Name] AS 'Nome do Médico',
 	MedicalSpecialty.[Name] AS 'Especialidade do Médico',
-	Doctor.CRM AS 'CRM',
+	CONCAT('CRM/', SUBSTRING(Doctor.CRM, 1, 2), ' ', SUBSTRING(Doctor.CRM, 3, 3), '.', SUBSTRING(Doctor.CRM, 6, 3)) AS 'CRM',
 	MedicalRecord.[Text] AS 'Prontuário',
 	Comment.[Text] AS 'Comentário',
-	Comment.[Date] AS 'Data do Comentário'
+	FORMAT(CAST(Comment.[Date] AS DATETIME), 'dd/MM/yyyy') AS 'Data do Comentário'
 FROM Consultation
 	JOIN Clinic ON Consultation.ClinicId = Clinic.Id
 	JOIN Patient ON Consultation.PatientId = Patient.Id
